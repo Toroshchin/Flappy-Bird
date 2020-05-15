@@ -6,12 +6,17 @@ var bg = new Image();
 var fg = new Image();
 var pipeUp = new Image();
 var pipeBottom = new Image();
+var bgMenu = new Image();
+var buttonStart = new Image();
 
 bird.src = "img/bird.png";
 bg.src = "img/bg.png";
 fg.src = "img/fg.png";
 pipeUp.src = "img/pipeUp.png";
 pipeBottom.src = "img/pipeBottom.png";
+bgMenu.src = "img/bgmenu.png";
+buttonStart.src = "img/buttonStart.png";
+
 
 // Звуковые файлы
 var fly = new Audio();
@@ -20,7 +25,7 @@ var score_audio = new Audio();
 fly.src = "audio/fly.mp3";
 score_audio.src = "audio/score.mp3";
 
-var gap = 90;
+var gap = 100;
 
 // При нажатии на какую-либо кнопку
 document.addEventListener("keydown", moveUp);
@@ -64,7 +69,9 @@ function draw() {
         yPos + bird.height >= pipe[i].y + pipeUp.height + gap) || yPos + bird.height >= cvs.height - fg.height) {
       // Перезагрузка страницы
       cancelAnimationFrame(draw);
-      //ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(bgMenu, 0, 0);
+      ctx.drawImage(buttonStart, 65, 430);
       return;
 
     }
@@ -85,3 +92,17 @@ function draw() {
 }
 
 pipeBottom.onload = draw;
+
+
+
+canvas.addEventListener('click', function(e) {
+    score = 0;
+    xPos = 10;
+    yPos = 150;
+    grav = 1.5;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    draw();
+
+  }
+
+);
