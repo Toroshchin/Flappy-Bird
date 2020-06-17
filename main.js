@@ -58,22 +58,23 @@ function renderMenu() {
 
 
   if (score > bestScore) {
-    bestScore = score;
+    bestScore = score;;
   }
-
   cancelAnimationFrame(draw);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(bgMenu, 0, 0);
   ctx.drawImage(buttonStart, 65, 430);
   ctx.drawImage(windowScore, 83, 200);
   ctx.fillText(score, 155, 260);
-  ctx.fillText(bestScore, 155, 310);
+  ctx.fillText(bestScore, 155, 310)
+
   score = 0;
   xPos = 10;
   yPos = 150;
   grav = 1.5;
   pipe = [];
-  pipe[0] = {
+  pipe[
+    0] = {
     x: cvs.width,
     y: 0
   }
