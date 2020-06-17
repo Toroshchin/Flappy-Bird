@@ -8,6 +8,7 @@ var pipeUp = new Image();
 var pipeBottom = new Image();
 var bgMenu = new Image();
 var buttonStart = new Image();
+var windowScore = new Image();
 
 bird.src = "img/bird.png";
 bg.src = "img/bg.png";
@@ -16,15 +17,17 @@ pipeUp.src = "img/pipeUp.png";
 pipeBottom.src = "img/pipeBottom.png";
 bgMenu.src = "img/bgmenu.png";
 buttonStart.src = "img/buttonStart.png";
+windowScore.src = "img/windowScore.png";
 
 
+/*
 // Звуковые файлы
 var fly = new Audio();
 var score_audio = new Audio();
 
 fly.src = "audio/fly.mp3";
 score_audio.src = "audio/score.mp3";
-
+*/
 var gap = 100;
 
 // При нажатии на какую-либо кнопку
@@ -33,7 +36,7 @@ document.addEventListener("touchend", moveUp);
 
 function moveUp() {
   yPos -= 25;
-  fly.play();
+  // fly.play();
 }
 
 // Создание блоков
@@ -48,8 +51,36 @@ var score = 0;
 var xPos = 10;
 var yPos = 150;
 var grav = 1.5;
+let bestScore = 0;
+let status = false;
+
+function renderMenu() {
+
+
+  if (score > bestScore) {
+    bestScore = score;
+  }
+
+  cancelAnimationFrame(draw);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(bgMenu, 0, 0);
+  ctx.drawImage(buttonStart, 65, 430);
+  ctx.drawImage(windowScore, 83, 200);
+  ctx.fillText(score, 155, 260);
+  ctx.fillText(bestScore, 155, 310);
+  score = 0;
+  xPos = 10;
+  yPos = 150;
+  grav = 1.5;
+  pipe = [];
+  pipe[0] = {
+    x: cvs.width,
+    y: 0
+  }
+}
 
 function draw() {
+  status = true;
   ctx.drawImage(bg, 0, 0);
   for (var i = 0; i < pipe.length; i++) {
     ctx.drawImage(pipeUp, pipe[i].x, pipe[i].y);
@@ -67,18 +98,15 @@ function draw() {
       xPos <= pipe[i].x + pipeUp.width &&
       (yPos <= pipe[i].y + pipeUp.height ||
         yPos + bird.height >= pipe[i].y + pipeUp.height + gap) || yPos + bird.height >= cvs.height - fg.height) {
-      // Перезагрузка страницы
-      cancelAnimationFrame(draw);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(bgMenu, 0, 0);
-      ctx.drawImage(buttonStart, 65, 430);
+      // Прорисовка меню
+      renderMenu();
+      status = false;
       return;
-
     }
 
     if (pipe[i].x == 5) {
       score++;
-      score_audio.play();
+      // score_audio.play();
     }
   }
 
@@ -91,18 +119,16 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-pipeBottom.onload = draw;
+windowScore.onload = renderMenu;
 
 
 
-canvas.addEventListener('click', function(e) {
-    score = 0;
-    xPos = 10;
-    yPos = 150;
-    grav = 1.5;
+
+
+
+canvas.addEventListener("click", e => {
+  if (e.offsetX < 215 && e.offsetX > 65 && e.offsetY > 430 && e.offsetY < 483 && status == false) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     draw();
-
   }
-
-);
+});
