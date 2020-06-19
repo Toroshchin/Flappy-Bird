@@ -15,7 +15,7 @@ bg.src = "img/bg.png";
 fg.src = "img/fg.png";
 pipeUp.src = "img/pipeUp.png";
 pipeBottom.src = "img/pipeBottom.png";
-bgMenu.src = "img/bgmenu.png";
+bgMenu.src = "img/bgMenu.png";
 buttonStart.src = "img/buttonStart.png";
 windowScore.src = "img/windowScore.png";
 
